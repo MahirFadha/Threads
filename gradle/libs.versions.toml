@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.9.1"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -11,6 +11,7 @@ composeBom = "2024.04.01"
 material = "1.11.0"
 postgresql = "42.2.5"
 kotlin-coroutines = "1.6.0"
+lifecycle = "2.6.2"
 
 
 [libraries]
@@ -32,7 +33,7 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
-
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 
 

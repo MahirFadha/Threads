@@ -37,6 +37,11 @@ android {
     buildFeatures {
         compose = true
     }
+
+    viewBinding {
+        enable = true
+    }
+
 }
 
 dependencies {
@@ -51,6 +56,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.material)
+    implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.postgresql)
     implementation(libs.androidx.material3)
     testImplementation(libs.junit)

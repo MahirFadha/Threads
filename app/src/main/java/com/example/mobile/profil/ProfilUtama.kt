@@ -20,8 +20,16 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import com.example.mobile.R
 import com.example.mobile.ui.theme.MobileTheme
+import com.example.mobile.DatabaseConnection
+import com.example.mobile.getLatestContent
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 
 class ProfilUtama : ComponentActivity() {
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
@@ -29,13 +37,24 @@ class ProfilUtama : ComponentActivity() {
                 Profil()
             }
         }
+        GlobalScope.launch(Dispatchers.IO) {
+            val connection = DatabaseConnection.connection()
+            if (connection != null) {
+                println("Koneksi Berhasil")
+            } else {
+                println("Koneksi gagal")
+            }
+        }
     }
 }
 
+
+
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun Profil(){
     AndroidView(
-        factory = {context ->
+        factory = { context ->
             val layout = ConstraintLayout(context).apply {
                 setBackgroundColor(ContextCompat.getColor(context, R.color.black))
                 layoutParams = LayoutParams(
@@ -264,6 +283,18 @@ fun Profil(){
                 )
             }
 
+            val teksPost = TextView(context).apply{
+                id = View.generateViewId()
+                text = "What's new?"
+                setTextColor(ContextCompat.getColor(context, R.color.lightgray))
+                setTypeface(null,Typeface.NORMAL)
+                textSize = 16f
+            }
+
+            getLatestContent { latestContent ->
+                teksPost.text = latestContent ?: "Tidak ada postingan"
+            }
+
             val iconHome = ImageView(context).apply{
                 id = View.generateViewId()
                 setImageResource(R.drawable.profil_icon_home_off)
@@ -320,7 +351,6 @@ fun Profil(){
             }
 
 
-
             layout.addView(iconPrivacy)
             layout.addView(iconChart)
             layout.addView(iconInstagram)
@@ -344,6 +374,7 @@ fun Profil(){
             layout.addView(fotoProfilPost1)
             layout.addView(usernamePost1)
             layout.addView(teksWhatsNew)
+            layout.addView(teksPost)
             layout.addView(lineGrayPost)
             layout.addView(iconHome)
             layout.addView(iconSearch)
@@ -351,9 +382,9 @@ fun Profil(){
             layout.addView(iconLove)
             layout.addView(iconProfile)
 
-
             val constraintSet = ConstraintSet()
             constraintSet.clone(layout)
+
 
             constraintSet.connect(iconPrivacy.id, ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,40)
             constraintSet.connect(iconPrivacy.id, ConstraintSet.TOP,ConstraintSet.PARENT_ID,ConstraintSet.TOP,40)
@@ -427,6 +458,11 @@ fun Profil(){
             constraintSet.connect(lineGrayPost.id, ConstraintSet.TOP,fotoProfilPost1.id,ConstraintSet.BOTTOM,40)
             constraintSet.connect(lineGrayPost.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START)
 
+            constraintSet.connect(teksPost.id, ConstraintSet.TOP,lineGrayPost.id,ConstraintSet.BOTTOM,120)
+            constraintSet.connect(teksPost.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START)
+            constraintSet.connect(teksPost.id, ConstraintSet.END, ConstraintSet.PARENT_ID,ConstraintSet.END)
+
+
             constraintSet.connect(iconHome.id, ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,40)
             constraintSet.connect(iconHome.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,100)
 
@@ -443,18 +479,12 @@ fun Profil(){
             constraintSet.connect(iconProfile.id, ConstraintSet.START, iconLove.id,ConstraintSet.END,110)
 
 
-
-
-
-
-
-
-
             constraintSet.applyTo(layout)
             layout
         }
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable

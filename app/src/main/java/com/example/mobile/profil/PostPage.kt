@@ -277,6 +277,8 @@ fun Post(){
                 val post = teksWhatsNew.text.toString()
                 val username = usernamePost.text.toString()
                 insertPost(username, post)
+                val back = Intent(context, ProfilUtama::class.java)
+                context.startActivity(back)
             }
 
 

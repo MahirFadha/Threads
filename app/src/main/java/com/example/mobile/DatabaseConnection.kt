@@ -4,6 +4,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -12,7 +13,7 @@ object DatabaseConnection {
 
     private const val URL = "jdbc:postgresql://10.0.2.2:5432/postgres"
     private const val USER = "postgres"
-    private const val PASSWORD = "mahir"
+    private const val PASSWORD = ""
 
     fun connection (): Connection?{
         return try{
@@ -49,12 +50,13 @@ fun insertData(name:String, bio: String, link:String){
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 fun insertPost(name:String, content: String){
     GlobalScope.launch(Dispatchers.IO) {
         val connection = DatabaseConnection.connection()
         if (connection != null) {
             try {
-                val sql = "INSERT INTO account (username, content, created_at) VALUES (?,?,NOW)"
+                val sql = "INSERT INTO post (username, content, created_at) VALUES (?,?,NOW())"
                 val statement = connection.prepareStatement(sql)
                 statement.setString(1, name)
                 statement.setString(2, content)
@@ -65,6 +67,36 @@ fun insertPost(name:String, content: String){
             } finally {
                 connection.close()
             }
+        }
+    }
+}
+
+@OptIn(DelicateCoroutinesApi::class)
+fun getLatestContent(callback: (String?) -> Unit) {
+    GlobalScope.launch(Dispatchers.IO) {
+        var content: String? = null
+        val connection = DatabaseConnection.connection()
+        if (connection != null) {
+            try {
+                val sql = "SELECT content FROM post ORDER BY created_at DESC LIMIT 1"
+                val statement = connection.createStatement()
+                val resultSet = statement.executeQuery(sql)
+
+                if (resultSet.next()) {
+                    content = resultSet.getString("content")
+                }
+
+                resultSet.close()
+                statement.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                connection.close()
+            }
+        }
+
+        withContext(Dispatchers.Main) {
+            callback(content)
         }
     }
 }
