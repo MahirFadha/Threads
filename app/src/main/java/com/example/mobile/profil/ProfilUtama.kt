@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.example.mobile.R
 import com.example.mobile.ui.theme.MobileTheme
 import com.example.mobile.DatabaseConnection
+import com.example.mobile.getAllContents
 import com.example.mobile.getLatestContent
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -37,14 +38,14 @@ class ProfilUtama : ComponentActivity() {
                 Profil()
             }
         }
-        GlobalScope.launch(Dispatchers.IO) {
-            val connection = DatabaseConnection.connection()
-            if (connection != null) {
-                println("Koneksi Berhasil")
-            } else {
-                println("Koneksi gagal")
-            }
-        }
+//        GlobalScope.launch(Dispatchers.IO) {
+//            val connection = DatabaseConnection.connection()
+//            if (connection != null) {
+//                println("Koneksi Berhasil")
+//            } else {
+//                println("Koneksi gagal")
+//            }
+//        }
     }
 }
 
@@ -291,9 +292,15 @@ fun Profil(){
                 textSize = 16f
             }
 
-            getLatestContent { latestContent ->
-                teksPost.text = latestContent ?: "Tidak ada postingan"
+//            getLatestContent { latestContent ->
+//                teksPost.text = latestContent ?: "Tidak ada postingan"
+//            }
+
+            getAllContents { contentList ->
+                val combinedText = contentList.joinToString("\n\n") // kasih jarak antar konten
+                teksPost.text = combinedText
             }
+
 
             val iconHome = ImageView(context).apply{
                 id = View.generateViewId()

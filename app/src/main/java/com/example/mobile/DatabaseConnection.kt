@@ -100,3 +100,37 @@ fun getLatestContent(callback: (String?) -> Unit) {
         }
     }
 }
+
+@OptIn(DelicateCoroutinesApi::class)
+fun getAllContents(callback: (List<String>) -> Unit) {
+    GlobalScope.launch(Dispatchers.IO) {
+        val contents = mutableListOf<String>()
+        val connection = DatabaseConnection.connection()
+
+        if (connection != null) {
+            try {
+                val sql = "SELECT content FROM post ORDER BY created_at DESC"
+                val statement = connection.createStatement()
+                val resultSet = statement.executeQuery(sql)
+
+                while (resultSet.next()) {
+                    val content = resultSet.getString("content")
+                    contents.add(content)
+                }
+
+                resultSet.close()
+                statement.close()
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                connection.close()
+            }
+        }
+
+        // Kembalikan hasil ke thread UI
+        withContext(Dispatchers.Main) {
+            callback(contents)
+        }
+    }
+}
+
