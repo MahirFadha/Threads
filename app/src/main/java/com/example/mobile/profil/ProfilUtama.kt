@@ -263,8 +263,8 @@ fun Profil(){
                 id= View.generateViewId()
                 text= "hiyrr_f"
                 isAllCaps=false
-                textSize = 18f
-                setTypeface(null,Typeface.NORMAL)
+                textSize = 17f
+                setTypeface(null,Typeface.BOLD)
                 setTextColor(ContextCompat.getColor(context, R.color.white))
             }
 
@@ -307,15 +307,15 @@ fun Profil(){
                         id = View.generateViewId()
                         text = "hiyrr_f"
                         isAllCaps = false
-                        textSize = 18f
-                        setTypeface(null, Typeface.NORMAL)
+                        textSize = 17f
+                        setTypeface(null, Typeface.BOLD)
                         setTextColor(ContextCompat.getColor(context, R.color.white))
                     }
 
                     val teksPost = TextView(context).apply {
                         id = View.generateViewId()
                         text = content
-                        setTextColor(ContextCompat.getColor(context, R.color.lightgray))
+                        setTextColor(ContextCompat.getColor(context, R.color.white))
                         setTypeface(null, Typeface.NORMAL)
                         textSize = 16f
                     }
