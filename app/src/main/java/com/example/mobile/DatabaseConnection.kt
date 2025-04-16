@@ -13,7 +13,7 @@ object DatabaseConnection {
 
     private const val URL = "jdbc:postgresql://10.0.2.2:5432/postgres"
     private const val USER = "postgres"
-    private const val PASSWORD = ""
+    private const val PASSWORD = "mahir"
 
     fun connection (): Connection?{
         return try{

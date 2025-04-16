@@ -284,22 +284,128 @@ fun Profil(){
                 )
             }
 
-            val teksPost = TextView(context).apply{
-                id = View.generateViewId()
-                text = "What's new?"
-                setTextColor(ContextCompat.getColor(context, R.color.lightgray))
-                setTypeface(null,Typeface.NORMAL)
-                textSize = 16f
-            }
+
 
 //            getLatestContent { latestContent ->
 //                teksPost.text = latestContent ?: "Tidak ada postingan"
 //            }
 
             getAllContents { contentList ->
-                val combinedText = contentList.joinToString("\n\n") // kasih jarak antar konten
-                teksPost.text = combinedText
+                var previousId = lineGrayPost.id // untuk penempatan post pertama
+
+                contentList.forEachIndexed {
+                    index, content ->
+                    val fotoProfilPost = ImageView(context).apply {
+                        id = View.generateViewId()
+                        setBackgroundResource(R.drawable.profil_bg_foto_profil)
+                        setImageResource(R.drawable.profil_foto_profil)
+                        clipToOutline = true
+                        layoutParams = LayoutParams(140, 140)
+                    }
+
+                    val usernamePost = TextView(context).apply {
+                        id = View.generateViewId()
+                        text = "hiyrr_f"
+                        isAllCaps = false
+                        textSize = 18f
+                        setTypeface(null, Typeface.NORMAL)
+                        setTextColor(ContextCompat.getColor(context, R.color.white))
+                    }
+
+                    val teksPost = TextView(context).apply {
+                        id = View.generateViewId()
+                        text = content
+                        setTextColor(ContextCompat.getColor(context, R.color.lightgray))
+                        setTypeface(null, Typeface.NORMAL)
+                        textSize = 16f
+                    }
+
+                    val lineGrayPost1 = ImageView(context).apply {
+                        id = View.generateViewId()
+                        setBackgroundResource(R.drawable.profil_line_gray)
+                        layoutParams = LayoutParams(
+                            LayoutParams.MATCH_PARENT, 20
+                        )
+                    }
+
+                    layout.addView(fotoProfilPost)
+                    layout.addView(usernamePost)
+                    layout.addView(teksPost)
+                    layout.addView(lineGrayPost1)
+
+                    val constraintSet = ConstraintSet()
+                    constraintSet.clone(layout)
+
+                    constraintSet.connect(
+                        fotoProfilPost.id,
+                        ConstraintSet.START,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.START,
+                        30
+                    )
+                    constraintSet.connect(
+                        fotoProfilPost.id,
+                        ConstraintSet.TOP,
+                        previousId,
+                        ConstraintSet.BOTTOM,
+                        40
+                    )
+
+                    constraintSet.connect(
+                        usernamePost.id,
+                        ConstraintSet.START,
+                        fotoProfilPost.id,
+                        ConstraintSet.END,
+                        60
+                    )
+                    constraintSet.connect(
+                        usernamePost.id,
+                        ConstraintSet.TOP,
+                        previousId,
+                        ConstraintSet.BOTTOM,
+                        40
+                    )
+
+                    constraintSet.connect(
+                        teksPost.id,
+                        ConstraintSet.TOP,
+                        previousId,
+                        ConstraintSet.BOTTOM,
+                        120
+                    )
+                    constraintSet.connect(
+                        teksPost.id,
+                        ConstraintSet.START,
+                        fotoProfilPost1.id,
+                        ConstraintSet.END,
+                        60
+                    )
+//            constraintSet.connect(teksPost.id, ConstraintSet.END, ConstraintSet.PARENT_ID,ConstraintSet.END)
+
+                    constraintSet.connect(
+                        lineGrayPost1.id,
+                        ConstraintSet.TOP,
+                        fotoProfilPost.id,
+                        ConstraintSet.BOTTOM,
+                        40
+                    )
+                    constraintSet.connect(
+                        lineGrayPost1.id,
+                        ConstraintSet.START,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.START
+                    )
+
+
+                    constraintSet.applyTo(layout)
+
+                    previousId = lineGrayPost1.id
+
+//                    val combinedText = contentList.joinToString("\n\n")
+//                    teksPost.text = combinedText
+                }
             }
+
 
 
             val iconHome = ImageView(context).apply{
@@ -381,7 +487,6 @@ fun Profil(){
             layout.addView(fotoProfilPost1)
             layout.addView(usernamePost1)
             layout.addView(teksWhatsNew)
-            layout.addView(teksPost)
             layout.addView(lineGrayPost)
             layout.addView(iconHome)
             layout.addView(iconSearch)
@@ -464,11 +569,6 @@ fun Profil(){
 
             constraintSet.connect(lineGrayPost.id, ConstraintSet.TOP,fotoProfilPost1.id,ConstraintSet.BOTTOM,40)
             constraintSet.connect(lineGrayPost.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START)
-
-            constraintSet.connect(teksPost.id, ConstraintSet.TOP,lineGrayPost.id,ConstraintSet.BOTTOM,120)
-            constraintSet.connect(teksPost.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START)
-            constraintSet.connect(teksPost.id, ConstraintSet.END, ConstraintSet.PARENT_ID,ConstraintSet.END)
-
 
             constraintSet.connect(iconHome.id, ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,40)
             constraintSet.connect(iconHome.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,100)
