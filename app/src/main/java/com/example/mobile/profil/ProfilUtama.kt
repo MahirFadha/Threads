@@ -538,22 +538,22 @@ fun Profil(){
             constraintSet.connect(btnShareProfil.id, ConstraintSet.START, btnEditProfil.id,ConstraintSet.END,40)
 
             constraintSet.connect(threadsTeks.id, ConstraintSet.TOP,btnEditProfil.id,ConstraintSet.BOTTOM,60)
-            constraintSet.connect(threadsTeks.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,40)
+            constraintSet.connect(threadsTeks.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,50)
 
             constraintSet.connect(repliesTeks.id, ConstraintSet.TOP,btnEditProfil.id,ConstraintSet.BOTTOM,64)
-            constraintSet.connect(repliesTeks.id, ConstraintSet.START, threadsTeks.id,ConstraintSet.END,74)
+            constraintSet.connect(repliesTeks.id, ConstraintSet.START, threadsTeks.id,ConstraintSet.END,76)
 
             constraintSet.connect(mediaTeks.id, ConstraintSet.TOP,btnEditProfil.id,ConstraintSet.BOTTOM,64)
             constraintSet.connect(mediaTeks.id, ConstraintSet.START, repliesTeks.id,ConstraintSet.END,74)
 
             constraintSet.connect(repostsTeks.id, ConstraintSet.TOP,btnEditProfil.id,ConstraintSet.BOTTOM,64)
-            constraintSet.connect(repostsTeks.id, ConstraintSet.START, mediaTeks.id,ConstraintSet.END,74)
+            constraintSet.connect(repostsTeks.id, ConstraintSet.START, mediaTeks.id,ConstraintSet.END,76)
 
             constraintSet.connect(feedsTeks.id, ConstraintSet.TOP,btnEditProfil.id,ConstraintSet.BOTTOM,64)
-            constraintSet.connect(feedsTeks.id, ConstraintSet.START, repostsTeks.id,ConstraintSet.END,74)
+            constraintSet.connect(feedsTeks.id, ConstraintSet.START, repostsTeks.id,ConstraintSet.END,76)
 
             constraintSet.connect(lineWhite.id, ConstraintSet.TOP,threadsTeks.id,ConstraintSet.BOTTOM,30)
-            constraintSet.connect(lineWhite.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,28)
+            constraintSet.connect(lineWhite.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START,34)
 
             constraintSet.connect(lineGray.id, ConstraintSet.TOP,threadsTeks.id,ConstraintSet.BOTTOM,34)
             constraintSet.connect(lineGray.id, ConstraintSet.START, ConstraintSet.PARENT_ID,ConstraintSet.START)
